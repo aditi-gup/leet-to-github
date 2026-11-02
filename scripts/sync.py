@@ -262,7 +262,16 @@ def main():
         print(exc)
         raise SystemExit(1) from exc
 
-    new_submissions = [s for s in submissions if str(s["id"]) not in synced_ids]
+    print(f"Accepted submissions fetched: {len(submissions)}")
+    print(f"Latest fetched submissions: {submissions[:5]}")
+    print(f"Latest saved submission IDs: {sorted(synced_ids, key=int)[-5:]}")
+    
+    new_submissions = [
+        s for s in submissions
+        if str(s["id"]) not in synced_ids
+    ]
+    
+    print(f"New submissions detected: {len(new_submissions)}")
 
     if not new_submissions:
         print("No new accepted submissions.")
