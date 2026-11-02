@@ -156,6 +156,13 @@ def fetch_recent_accepted_submissions(limit=100):
         raise LeetCodeAccessError(f"LeetCode GraphQL error: {messages}")
 
     user_status = payload.get("data", {}).get("userStatus") or {}
+    print("LeetCode signed in:", user_status.get("isSignedIn"))
+    print("LeetCode authenticated username:", user_status.get("username"))
+    print("Configured username:", LEETCODE_USERNAME)
+    
+    submissions = payload.get("data", {}).get("recentAcSubmissionList")
+    print("Raw submissions returned:", len(submissions) if submissions is not None else None)
+    print("First raw submission:", submissions[0] if submissions else None)
     if not user_status.get("isSignedIn"):
         raise LeetCodeAuthError(
             "LeetCode session is not authenticated. Refresh LEETCODE_SESSION and "
